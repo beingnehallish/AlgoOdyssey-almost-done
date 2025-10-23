@@ -1,0 +1,81 @@
+/* Navbar Container */
+.navbar-student {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 3rem;
+  background-color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  font-family: "Poppins", sans-serif;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Logo */
+.navbar-student .logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #007BFF;
+}
+
+/* Navbar Links */
+.navbar-student nav {
+  display: flex;
+  gap: 1.5rem;
+}
+
+/* Link Styles */
+.navbar-student nav a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* Hover Effect */
+.navbar-student nav a:hover {
+  background-color: #007BFF;
+  color: #fff;
+}
+
+/* Active Link */
+.navbar-student nav a.active {
+  background-color: #007BFF;
+  color: #fff;
+}
+
+/* Icon inside link */
+.navbar-student .icon {
+  display: inline-flex;
+  font-size: 1.1rem;
+  vertical-align: middle;
+}
+
+/* Responsive Navbar */
+@media (max-width: 900px) {
+  .navbar-student {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 2rem;
+  }
+
+  .navbar-student nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar-student nav a {
+    font-size: 0.95rem;
+    padding: 0.4rem 0.8rem;
+  }
+}

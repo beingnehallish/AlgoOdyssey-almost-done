@@ -1,0 +1,20 @@
+# Node dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+.vite/
+.cache/
+.temp/
+
+# Environment / secrets
+.env
+.env.local
+
+# Logs
+*.log
+
+# System files
+.DS_Store
+Thumbs.db

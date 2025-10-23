@@ -1,0 +1,140 @@
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  background: url("../assets/g1.gif") no-repeat center center/cover;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Optional: add semi-transparent overlay for readability */
+.login-wrapper::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+ /* adjust opacity */
+  z-index: 1;
+}
+
+.login-container {
+  position: relative; /* to appear above overlay */
+  z-index: 2;
+  max-width: 400px;
+  width: 100%;
+  padding: 4rem;
+  background: rgba(255,255,255,0.9);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+}
+.role-toggle {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+
+.role-toggle button {
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  border: 1px solid #007BFF;
+  background: #fff;
+  color: #007BFF;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.role-toggle button.active,
+.role-toggle button:hover {
+  background: #007BFF;
+  color: #fff;
+  border-color: #0056b3;
+}
+
+.input {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.btn {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  background-color: #007BFF;
+  color: #fff;
+  font-weight: 500;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
+.error {
+  color: red;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+.analog-clock {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 120px;  /* clock size */
+  height: 120px;
+  border: 6px solid #fff;
+  border-radius: 50%;
+  background: #6ab1fc;
+  z-index: 3;
+}
+
+.hand {
+  position: absolute;
+  width: 50%;
+  height: 2px;
+  background: #fff;
+  top: 50%;
+  left: 50%;
+  transform-origin: 0% 50%;
+  transition: transform 0.05s linear;
+}
+
+.hand.hour {
+  width: 35%;
+  height: 4px;
+  background: #fff;
+}
+
+.hand.minute {
+  width: 45%;
+  height: 3px;
+  background: #fff;
+}
+
+.hand.second {
+  width: 50%;
+  height: 2px;
+  background: #007BFF;
+}
+
+.center-dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

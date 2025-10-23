@@ -1,0 +1,272 @@
+/* ==== CONTAINER ==== */
+.view-challenges-container {
+  max-width: 900px;
+  margin: 60px auto;
+  padding: 30px;
+  background-color: #f9f9f9;
+  border-radius: 16px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
+}
+
+.view-challenges-container h2 {
+  text-align: center;
+  color: #001f3f;
+  margin-bottom: 30px;
+  font-size: 1.8rem;
+  letter-spacing: 0.5px;
+}
+
+/* ==== CHALLENGE CARD ==== */
+.challenge-card1 {
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.challenge-card1:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* ==== HEADER ==== */
+.challenge-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  color: black;
+  padding: 14px 20px;
+  cursor: pointer;
+}
+
+.challenge-header:hover {
+  background: #aecfef;
+}
+
+.challenge-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.challenge-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.difficulty-label {
+  color: #fff;
+  font-weight: bold;
+  padding: 6px 12px;
+  border-radius: 8px;
+  text-transform: capitalize;
+  font-size: 0.9rem;
+}
+
+.arrow {
+  font-size: 1rem;
+}
+
+/* ==== DETAILS ==== */
+.challenge-details1 {
+  padding: 18px 22px;
+  background: #f4f7fb;
+  line-height: 1.6;
+  color: #222;
+}
+
+.challenge-details1 p {
+  margin: 8px 0;
+}
+
+.challenge-starttime {
+  background: #f0f4ff;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  color: #333;
+  border-top: 1px solid #e0e0e0;
+}
+
+.challenge-actions {
+  margin-top: 18px;
+  display: flex;
+  gap: 12px;
+}
+
+/* ==== BUTTONS ==== */
+.edit-btn,
+.delete-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.edit-btn {
+  background: #007bff;
+  color: #fff;
+}
+
+.edit-btn:hover {
+  background: #0056b3;
+  transform: scale(1.05);
+}
+
+.delete-btn {
+  background: #e74c3c;
+  color: #fff;
+}
+
+.delete-btn:hover {
+  background: #c0392b;
+  transform: scale(1.05);
+}
+
+/* Small version for modal test cases */
+.small {
+  padding: 6px 10px;
+  font-size: 0.8rem;
+}
+
+/* ==== MODAL ==== */
+/* ==== MODAL OVERLAY ==== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  padding: 20px; /* ensures modal doesn't touch edges */
+  overflow-y: auto;
+}
+
+/* ==== MODAL BOX ==== */
+.modal {
+  background: #fff;
+  width: 100%;
+  max-width: 550px; /* slightly smaller than before */
+  border-radius: 12px;
+  padding: 20px 25px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+  max-height: 90vh; /* prevent going out of screen */
+  overflow-y: auto; /* scroll if content is too tall */
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* ==== MODAL HEADER ==== */
+.modal h3 {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #001f3f;
+}
+
+/* ==== INPUTS / TEXTAREA / SELECT ==== */
+.modal input,
+.modal textarea,
+.modal select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+}
+
+.modal textarea {
+  resize: vertical; /* allow vertical resize */
+}
+
+/* focus style */
+.modal input:focus,
+.modal textarea:focus,
+.modal select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* ==== TEST CASES ==== */
+.test-cases-section {
+  background: #f4f7fc;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #e1e7f0;
+  max-height: 200px; /* limit height */
+  overflow-y: auto; /* scroll if many test cases */
+}
+
+.testcase-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.testcase-item input {
+  flex: 1;
+  padding: 6px 8px;
+  font-size: 0.9rem;
+}
+
+/* add/remove buttons */
+.edit-btn.small,
+.delete-btn.small {
+  padding: 6px 10px;
+  font-size: 0.85rem;
+}
+
+/* ==== MODAL BUTTONS ==== */
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.modal-buttons .edit-btn,
+.modal-buttons .delete-btn {
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+/* ==== SCROLLBAR STYLE ==== */
+.test-cases-section::-webkit-scrollbar,
+.modal::-webkit-scrollbar {
+  width: 6px;
+}
+
+.test-cases-section::-webkit-scrollbar-thumb,
+.modal::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+/* ==== RESPONSIVE ==== */
+@media (max-width: 600px) {
+  .modal {
+    padding: 15px 18px;
+    max-width: 100%;
+  }
+
+  .modal-buttons {
+    flex-direction: column;
+  }
+}

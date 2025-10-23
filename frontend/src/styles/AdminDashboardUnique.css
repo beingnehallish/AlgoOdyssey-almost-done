@@ -1,0 +1,204 @@
+/* Container */
+.adm-unique-dashboard {
+  display: flex;
+  min-height: 100vh;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f2f5;
+}
+
+/* Sidebar */
+.adm-unique-sidebar {
+  width: 240px;
+  background-color: #1f1f2e;
+  color: #ffffff;
+  padding: 25px 15px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.adm-unique-sidebar-title {
+  font-size: 1.6rem;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.adm-unique-sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.adm-unique-sidebar-menu li {
+  padding: 12px 18px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.adm-unique-sidebar-menu li:hover {
+  background-color: #2a2a3e;
+  transform: translateX(3px);
+}
+
+.adm-unique-active {
+  background-color: #e43f5a;
+  font-weight: bold;
+}
+
+/* Main Content */
+.adm-unique-main {
+  flex: 1;
+  padding: 30px;
+  overflow-y: auto;
+}
+
+/* Welcome Message */
+.adm-unique-welcome {
+  text-align: center;
+  margin-top: 100px;
+}
+
+.adm-unique-welcome h1 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+.adm-unique-welcome p {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+/* Scrollbar Styling (optional) */
+.adm-unique-main::-webkit-scrollbar {
+  width: 8px;
+}
+
+.adm-unique-main::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.adm-unique-main::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+.adm-profile-wrapper {
+  background-color: #f9fafc;
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+}
+
+.adm-profile-container {
+  max-width: 850px;
+  margin: 3rem auto;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.adm-profile-container h1 {
+  text-align: center;
+  color: #1a1a2e;
+  margin-bottom: 1.5rem;
+}
+
+.adm-profile-message {
+  text-align: center;
+  color: #2b7a0b;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.adm-profile-card {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.adm-profile-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.adm-profile-avatar {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #0077b6;
+}
+
+.adm-upload-input {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.adm-profile-right {
+  flex: 1;
+}
+
+.adm-profile-right input {
+  display: block;
+  width: 100%;
+  padding: 0.6rem;
+  margin-bottom: 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  transition: border 0.3s;
+}
+
+.adm-profile-right input:focus {
+  border-color: #0077b6;
+  outline: none;
+}
+
+.adm-profile-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.adm-btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.adm-btn.primary {
+  background-color: #0077b6;
+  color: white;
+}
+
+.adm-btn.primary:hover {
+  background-color: #005f87;
+}
+
+.adm-btn.secondary {
+  background-color: #f1f1f1;
+  color: #333;
+}
+
+.adm-btn.secondary:hover {
+  background-color: #e0e0e0;
+}
+
+.adm-btn.logout {
+  background-color: #ff4b5c;
+  color: white;
+}
+
+.adm-btn.logout:hover {
+  background-color: #d63c4e;
+}
+
+hr {
+  margin: 1rem 0;
+  border: 0.5px solid #e0e0e0;
+}

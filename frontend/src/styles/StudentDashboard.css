@@ -1,0 +1,96 @@
+.dashboard-wrapper {
+  background: linear-gradient(to bottom right, #0a1f44, #031028);
+  min-height: 100vh;
+  color: #f5f7fa;
+  font-family: "Poppins", sans-serif;
+}
+
+.dashboard-container {
+  max-width: 1000px;
+  margin: 60px auto;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  text-align: center;
+}
+
+.dashboard-title {
+  font-size: 2.2rem;
+  color: #66ccff;
+  margin-bottom: 10px;
+}
+
+.welcome-text {
+  color: #d0d3d9;
+  font-size: 1rem;
+  margin-bottom: 25px;
+}
+
+.loading-text,
+.error-text,
+.no-data {
+  color: #ccc;
+  font-size: 1.1rem;
+}
+
+.error-text {
+  color: #ff6b6b;
+}
+
+.leaderboard-container {
+  margin-top: 30px;
+  overflow-x: auto;
+  border-radius: 10px;
+}
+
+.leaderboard-title {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #a6e1fa;
+}
+
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+  padding: 12px 15px;
+  text-align: center;
+}
+
+.leaderboard-table th {
+  background-color: #132a4f;
+  color: #a6e1fa;
+  font-weight: 600;
+}
+
+.leaderboard-table tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.leaderboard-table tr:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  transition: background 0.2s;
+}
+
+.highlight-row {
+  background-color: rgba(102, 204, 255, 0.2);
+  font-weight: bold;
+  color: #ffffff;
+  box-shadow: 0 0 8px #66ccff;
+}
+
+@media (max-width: 768px) {
+  .leaderboard-table th,
+  .leaderboard-table td {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+}
