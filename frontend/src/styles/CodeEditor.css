@@ -102,7 +102,7 @@
 /* Sidebar */
 .sidebar {
   position: fixed;
-  background: rgb(253, 250, 245);
+  background: white;
   top: 0;
   right: 0;
   width: 450px;
@@ -230,7 +230,7 @@
   align-items: center;
   gap: 8px;
   font-style: italic;
-  color: #e7dddd;
+  color: #595454;
   margin-bottom: 8px;
 }
 
@@ -306,7 +306,7 @@
 }
 
 .modal-overlay.warning .modal {
-  background: #ffecec;
+  background: white;
   border: 2px solid red;
 }
 .modal-overlay.warning {
@@ -328,4 +328,12 @@
 .modal-actions button:first-child {
   background-color: #dc3545;
   color: white;
+}
+.full-btn {
+  margin: 0 8px;
+  padding: 6px 12px;
+  border: 2px solid red;
+  cursor: pointer;
+  background: white;
+  border-radius: 25px;
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react"; 
 import { useNavigate } from "react-router-dom";
 import NavbarStudent from "../components/NavbarStudent";
 import "../styles/ChallengesPage.css";
@@ -6,22 +6,21 @@ import "../styles/ChallengesPage.css";
 export default function ChallengesPage() {
   const [challenges, setChallenges] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const [modalOpen, setModalOpen] = useState(false);
   const [currentChallenge, setCurrentChallenge] = useState(null);
   const [agreeTC, setAgreeTC] = useState(false);
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(1); // 1 = T&C, 2 = Webcam
   const [identityVerified, setIdentityVerified] = useState(false);
   const [verifying, setVerifying] = useState(false);
-
+  const [submittedChallenges, setSubmittedChallenges] = useState([]);
   const videoRef = useRef(null);
   const navigate = useNavigate();
+  const userId = localStorage.getItem("userId");
 
+  // Fetch challenges
   useEffect(() => {
     fetchChallenges();
-    const interval = setInterval(() => {
-      setChallenges((prev) => [...prev]);
-    }, 1000);
+    const interval = setInterval(() => setChallenges(prev => [...prev]), 1000);
     return () => clearInterval(interval);
   }, []);
 
@@ -37,10 +36,27 @@ export default function ChallengesPage() {
     }
   };
 
+  // Fetch user's submitted challenges
+  useEffect(() => {
+    const fetchSubmissions = async () => {
+      if (!userId) return;
+      try {
+        const res = await fetch(`http://localhost:5000/api/submissions/user/${userId}`);
+        if (!res.ok) throw new Error("Failed to fetch submissions");
+        const data = await res.json();
+        setSubmittedChallenges(data.map(sub => sub.challengeId._id?.toString() || sub.challengeId.toString()));
+} catch (err) {
+        console.error(err);
+      }
+    };
+    fetchSubmissions();
+  }, [userId]);
+
+  // Time helpers
   const getTimeLeft = (startTime, timeLimitSeconds) => {
     const now = new Date();
     const start = new Date(startTime);
-    const end = new Date(start.getTime() + timeLimitSeconds * 1000); // seconds → ms
+    const end = new Date(start.getTime() + timeLimitSeconds * 1000);
 
     if (now < start) return { status: "upcoming", diff: start - now, total: start - now };
     if (now >= start && now <= end) return { status: "active", diff: end - now, total: end - start };
@@ -55,6 +71,7 @@ export default function ChallengesPage() {
     return `${String(mins).padStart(2,"0")}:${String(secs).padStart(2,"0")}`;
   };
 
+  // Challenge handlers
   const handleStart = (challenge) => {
     setCurrentChallenge(challenge);
     setModalOpen(true);
@@ -76,9 +93,7 @@ export default function ChallengesPage() {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
-        await new Promise((resolve) => {
-          videoRef.current.onloadedmetadata = () => resolve(true);
-        });
+        await new Promise(resolve => videoRef.current.onloadedmetadata = () => resolve(true));
       }
     } catch (err) {
       alert("Cannot access webcam. " + err.message);
@@ -87,35 +102,33 @@ export default function ChallengesPage() {
 
   const captureAndVerify = async () => {
     if (!videoRef.current || videoRef.current.readyState < 2) return alert("Webcam not ready yet.");
-
+    
     const canvas = document.createElement("canvas");
     canvas.width = videoRef.current.videoWidth || 640;
     canvas.height = videoRef.current.videoHeight || 480;
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+    canvas.getContext("2d").drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
 
     const email = localStorage.getItem("email");
     if (!email) return alert("Email not found. Please login again.");
 
     try {
       setVerifying(true);
-      const res = await fetch(
-        `http://localhost:5000/api/verify-identity/${currentChallenge._id}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, image: canvas.toDataURL("image/jpeg") }),
-        }
-      );
+      const res = await fetch(`http://localhost:5000/api/verify-identity/${currentChallenge._id}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, image: canvas.toDataURL("image/jpeg") }),
+      });
       const data = await res.json();
       setVerifying(false);
 
       if (data.verified) {
-        setIdentityVerified(true);
-        stopWebcam();
-        setModalOpen(false);
-        navigate(`/challenge/${currentChallenge._id}`);
-      } else {
+  setIdentityVerified(true);
+  stopWebcam();
+  setModalOpen(false);
+  setSubmittedChallenges(prev => [...prev, currentChallenge._id.toString()]); // ✅ Add to submittedChallenges
+  navigate(`/challenge/${currentChallenge._id}`);
+}
+ else {
         alert(`❌ Identity verification failed. Distance: ${data.distance?.toFixed(2) || "N/A"}`);
       }
     } catch (err) {
@@ -127,7 +140,7 @@ export default function ChallengesPage() {
 
   const stopWebcam = () => {
     if (videoRef.current && videoRef.current.srcObject) {
-      videoRef.current.srcObject.getTracks().forEach((t) => t.stop());
+      videoRef.current.srcObject.getTracks().forEach(track => track.stop());
     }
   };
 
@@ -143,11 +156,9 @@ export default function ChallengesPage() {
     </div>
   );
 
-  // Only show next upcoming or active challenge
   const nextChallenge = challenges.find(
-    (c) => getTimeLeft(c.startTime, c.timeLimit).status !== "ended"
+    c => getTimeLeft(c.startTime, c.timeLimit).status !== "ended"
   );
-
   const { status, diff, total } = nextChallenge
     ? getTimeLeft(nextChallenge.startTime, nextChallenge.timeLimit)
     : { status: "ended", diff: 0, total: 0 };
@@ -178,12 +189,24 @@ export default function ChallengesPage() {
               </div>
 
               <button
-                className={`start-btn ${status === "upcoming" || status === "ended" ? "disabled" : ""}`}
-                disabled={status === "upcoming" || status === "ended"}
-                onClick={() => handleStart(nextChallenge)}
-              >
-                {status === "ended" ? "Challenge Ended" : "Start Challenge"}
-              </button>
+  className={`start-btn ${
+    status === "upcoming" || status === "ended" || submittedChallenges.includes(nextChallenge._id.toString())
+      ? "disabled"
+      : ""
+  }`}
+  disabled={
+    status === "upcoming" || status === "ended" || submittedChallenges.includes(nextChallenge._id.toString())
+  }
+  onClick={() => handleStart(nextChallenge)}
+>
+  {submittedChallenges.includes(nextChallenge._id.toString())
+    ? "Already Submitted"
+    : status === "ended"
+    ? "Challenge Ended"
+    : "Start Challenge"}
+</button>
+
+
             </div>
           </div>
         )}
@@ -211,14 +234,29 @@ export default function ChallengesPage() {
             )}
 
             {step === 2 && (
-              <>
-                <h2>Identity Verification</h2>
-                <video ref={videoRef} autoPlay width="320" height="240" />
-                <button className="btn" onClick={handleNext} disabled={verifying}>
-                  {verifying ? "Verifying..." : "Capture & Verify"}
-                </button>
-              </>
-            )}
+  <div className="identity-verification-step">
+    <div className="webcam-container">
+      <video ref={videoRef} autoPlay width="320" height="240" />
+    </div>
+
+    <div className="verification-feedback">
+      {identityVerified ? (
+        <div className="verified">
+          <div className="tick-animation">✔️</div>
+          <p>All the best, {localStorage.getItem("name") || "Student"}!</p>
+        </div>
+      ) : (
+        <>
+          <button className="btn" onClick={handleNext} disabled={verifying}>
+            {verifying ? "Verifying..." : "Capture & Verify"}
+          </button>
+          {verifying && <p>🔄 Checking identity, please wait...</p>}
+        </>
+      )}
+    </div>
+  </div>
+)}
+
 
             <button className="modal-close" onClick={handleCloseModal}>❌ Close</button>
           </div>

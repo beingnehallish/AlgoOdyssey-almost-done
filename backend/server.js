@@ -10,7 +10,6 @@ import uploadRoute from "./routes/uploadRoute.js";
 import submissionRoute from "./routes/submissionRoute.js";
 import leaderboardRoutes from "./routes/leaderboardRoutes.js";
 import Challenge from "./models/Challenge.js";
-import { computeLeaderboard } from "./controllers/leaderboardController.js";
 dotenv.config();
 
 const app = express();

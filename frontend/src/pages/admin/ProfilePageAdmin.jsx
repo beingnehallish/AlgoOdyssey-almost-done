@@ -102,9 +102,11 @@ export default function ProfilePageAdmin() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("email");
-    navigate("/login");
-  };
+  localStorage.removeItem("email");
+  window.scrollTo(0, 0); // scroll to top
+  navigate("/");
+};
+
 
   return (
      <div className="adm-profile-wrapper">

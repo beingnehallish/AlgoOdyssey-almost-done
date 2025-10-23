@@ -440,7 +440,7 @@ window.dispatchEvent(new Event("stop-timer"));
           <div className="modal">
             <p>You exited fullscreen! Enter fullscreen or you’ll be removed from the test in:</p>
             <h3>{countdown} seconds</h3>
-            <button onClick={enterFullscreen}>Enter Fullscreen</button>
+            <button className="full-btn" onClick={enterFullscreen}>Enter Fullscreen</button>
           </div>
         </div>
       )}

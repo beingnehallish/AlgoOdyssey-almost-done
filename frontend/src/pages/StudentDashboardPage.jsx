@@ -8,23 +8,24 @@ export default function StudentDashboard() {
   const [error, setError] = useState("");
   const userId = localStorage.getItem("userId");
 
-  useEffect(() => {
-    const fetchLeaderboard = async () => {
-      try {
-        const res = await fetch("http://localhost:5000/api/leaderboard/latest"); 
-        if (!res.ok) throw new Error("Failed to fetch leaderboard");
-        const data = await res.json();
-        setLeaderboard(data);
-      } catch (err) {
-        console.error(err);
-        setError("Unable to load leaderboard.");
-      } finally {
-        setLoading(false);
-      }
-    };
+useEffect(() => {
+  const fetchLeaderboard = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/leaderboard/latest"); 
+      if (!res.ok) throw new Error("Failed to fetch leaderboard");
+      const data = await res.json();
+      setLeaderboard(data.leaderboard || []); // <-- use data.leaderboard
+    } catch (err) {
+      console.error(err);
+      setError("Unable to load leaderboard.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchLeaderboard();
-  }, []);
+  fetchLeaderboard();
+}, []);
+
 
   return (
     <div className="dashboard-wrapper">
@@ -54,21 +55,20 @@ export default function StudentDashboard() {
                 </tr>
               </thead>
               <tbody>
-                {leaderboard.map((student) => (
-                  <tr
-                    key={student.userId}
-                    className={
-                      student.userId === userId ? "highlight-row" : ""
-                    }
-                  >
-                    <td>#{student.rank}</td>
-                    <td>{student.userName}</td>
-                    <td>{student.correctnessScore.toFixed(2)}</td>
-                    <td>{student.efficiencyPercentile.toFixed(2)}</td>
-                    <td>{student.totalScore.toFixed(2)}</td>
-                  </tr>
-                ))}
-              </tbody>
+  {leaderboard.map((student) => (
+    <tr
+      key={student.userId}
+      className={student.userId === userId ? "highlight-row" : ""}
+    >
+      <td>#{student.rank}</td>
+      <td>{student.userName}</td>
+      <td>{(student.correctnessScore ?? 0).toFixed(2)}</td>
+      <td>{(student.efficiencyPercentile ?? 0).toFixed(2)}</td>
+      <td>{(student.totalScore ?? 0).toFixed(2)}</td>
+    </tr>
+  ))}
+</tbody>
+
             </table>
           </div>
         )}

@@ -22,10 +22,9 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Load face-api models on server start
-const MODEL_PATH = path.join(process.cwd(), "face_models");
-await faceapi.nets.ssdMobilenetv1.loadFromDisk(MODEL_PATH);
-await faceapi.nets.faceLandmark68Net.loadFromDisk(MODEL_PATH);
-await faceapi.nets.faceRecognitionNet.loadFromDisk(MODEL_PATH);
+await faceapi.nets.tinyFaceDetector.loadFromDisk("./face-models-tiny");
+await faceapi.nets.faceRecognitionNet.loadFromDisk("./face-models-tiny");
+await faceapi.nets.faceLandmark68TinyNet.loadFromDisk("./face-models-tiny");
 
 /**
  * POST /api/register
@@ -111,7 +110,10 @@ if (newPassword || confirmPassword) {
       user.image = `/uploads/${req.file.filename}`;
 
       const img = await canvas.loadImage(imagePath);
-      const detection = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
+      const detection = await faceapi
+  .detectSingleFace(img, new faceapi.TinyFaceDetectorOptions({ inputSize: 160 })) // smaller input
+  .withFaceLandmarks(true)
+  .withFaceDescriptor();
 
       if (!detection) {
         console.log("No face detected in uploaded image");
@@ -148,24 +150,21 @@ router.post("/verify-identity/:challengeId", async (req, res) => {
     const buffer = Buffer.from(base64Data, "base64");
 
     const img = await canvas.loadImage(buffer);
-    const detection = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
+    const detection = await faceapi
+  .detectSingleFace(img, new faceapi.TinyFaceDetectorOptions({ inputSize: 160 }))
+  .withFaceLandmarks(true)
+  .withFaceDescriptor();
 
-    if (!detection) {
-      console.log("No face detected in webcam image");
-      return res.status(400).json({ verified: false, message: "No face detected in webcam image" });
-    }
+if (!detection) return res.status(400).json({ verified: false, message: "No face detected" });
 
-    const queryDescriptor = detection.descriptor;
-    const referenceDescriptor = new Float32Array(user.faceDescriptor);
+const queryDescriptor = detection.descriptor;
+const referenceDescriptor = new Float32Array(user.faceDescriptor);
 
-    const distance = faceapi.euclideanDistance(queryDescriptor, referenceDescriptor);
-    const threshold = 0.65;
-    const verified = distance < threshold;
+const distance = faceapi.euclideanDistance(queryDescriptor, referenceDescriptor);
+const verified = distance < 0.65;
 
-    console.log("Distance:", distance, "Verified:", verified);
-
-    res.json({ verified, distance, message: "Face verification completed" });
-  } catch (err) {
+res.json({ verified, distance, message: "Face verification completed" });
+} catch (err) {
     console.error("Identity verification error:", err);
     res.status(500).json({ verified: false, message: "Server error during identity verification" });
   }

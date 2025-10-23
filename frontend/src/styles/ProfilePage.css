@@ -1,14 +1,13 @@
 /* ProfilePage.css */
 
-.profile-container {
-  padding: 2rem;
+.profile-container1 {
   max-width: 700px;
   margin: 3rem auto;
   font-family: "Poppins", sans-serif;
-  background: #f5f7fa;
+  background: white;
 }
 
-.profile-container h1 {
+.profile-container1 h1 {
   text-align: center;
   margin-bottom: 2rem;
   color: #007BFF;

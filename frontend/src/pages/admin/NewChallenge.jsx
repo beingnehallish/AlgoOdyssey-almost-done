@@ -15,6 +15,16 @@ export default function NewChallenge() {
   const addTestCase = () => {
     setTestCases([...testCases, { input: "", expectedOutput: "" }]);
   };
+const [starterCode, setStarterCode] = useState({
+  "JavaScript": "// Write JS code here",
+  "Python": "// Write Python code here",
+  "C": "// Write C code here",
+  "C++": "// Write C++ code here",
+  "Java": "// Write Java code here",
+  "Go": "// Write Go code here",
+  "Rust": "// Write Rust code here",
+  "PHP": "// Write PHP code here"
+});
 
   // Remove test case at index
   const removeTestCase = (index) => {
@@ -39,7 +49,7 @@ export default function NewChallenge() {
     }
 
     try {
-      const body = { title, description, difficulty, timeLimit, startTime, testCases }; // <-- include startTime
+      const body = { title, description, difficulty, timeLimit, startTime, testCases, starterCode };
 
       const res = await fetch("http://localhost:5000/api/challenges", {
         method: "POST",
@@ -71,6 +81,7 @@ export default function NewChallenge() {
       <h2>Create New Challenge</h2>
       {message && <p className="message">{message}</p>}
       <form onSubmit={handleSubmit}>
+        <h3>Basic Information</h3>
         <input
           type="text"
           placeholder="Challenge Title"
@@ -107,6 +118,19 @@ export default function NewChallenge() {
           min="1"
           required
         />
+<h3>Starter Code</h3>
+{Object.keys(starterCode).map((lang) => (
+  <div key={lang} className="starter-code">
+    <label>{lang} Starter Code:</label>
+    <textarea
+      rows="5"
+      value={starterCode[lang]}
+      onChange={(e) =>
+        setStarterCode({ ...starterCode, [lang]: e.target.value })
+      }
+    />
+  </div>
+))}
 
         <h3>Test Cases</h3>
         {testCases.map((tc, index) => (

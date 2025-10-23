@@ -119,16 +119,17 @@ export default function ProfilePage() {
     setMessage("Server error. Please try again later.");
   }
 };
+const handleLogout = () => {
+  localStorage.removeItem("email");
+  window.scrollTo(0, 0); // scroll to top
+  navigate("/");
+};
 
-  const handleLogout = () => {
-    localStorage.removeItem("email");
-    navigate("/");
-  };
 
   return (
     <div>
       <NavbarStudent/>
-      <div className="profile-container">
+      <div className="profile-container1">
         <h1>Your Profile</h1>
 
         {message && (
