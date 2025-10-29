@@ -17,7 +17,7 @@ const userId = localStorage.getItem("userId");
   const [running, setRunning] = useState(false);
   const [hiddenRunning, setHiddenRunning] = useState(false);
   const [language, setLanguage] = useState("JavaScript");
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [customInput, setCustomInput] = useState("");
   const [customOutput, setCustomOutput] = useState("");
   const [timeLeft, setTimeLeft] = useState(0);
@@ -55,6 +55,26 @@ window.addEventListener("cut", handleMalpractice);
 window.addEventListener("paste", handleMalpractice);
 window.addEventListener("blur", handleMalpractice); // when user switches tab or window
 window.addEventListener("visibilitychange", handleVisibilityChange);
+window.addEventListener("storage", (e) => {
+  if (e.key === `challengeSession_${id}` && e.newValue !== sessionId) triggerMalpractice();
+});
+window.addEventListener("contextmenu", (e) => e.preventDefault());
+const devtoolsCheck = () => {
+  const threshold = 160;
+  const widthDiff = window.outerWidth - window.innerWidth;
+  const heightDiff = window.outerHeight - window.innerHeight;
+  if (widthDiff > threshold || heightDiff > threshold) triggerMalpractice();
+};
+setInterval(devtoolsCheck, 2000);
+
+const detectDevTools = () => {
+  const start = performance.now();
+  debugger;
+  const end = performance.now();
+  if (end - start > 100) triggerMalpractice(); // DevTools paused execution
+};
+setInterval(detectDevTools, 2000);
+
 
    return () => {
   window.removeEventListener("keydown", handleEscPress);
@@ -190,9 +210,10 @@ if (remaining <= 0) {
     if (challenge) setCode(challenge.starterCode?.[lang] || "// Write your code here");
   };
 
-  const handleRun = async () => {
-    if (!challenge) return;
-    setRunning(true);
+ const handleRun = async () => {
+  if (!challenge) return;
+  setSidebarOpen(true); // ✅ Open sidebar on Run
+  setRunning(true);
     setTestResults([]);
     setHiddenResults([]);
 
@@ -273,7 +294,6 @@ if (remaining <= 0) {
     }
   };
 
- 
   // ✅ Opens confirmation modal
   const handleSubmit = () => {
     setShowSubmitModal(true);
@@ -341,14 +361,36 @@ window.dispatchEvent(new Event("stop-timer"));
   const hiddenPassedCount = hiddenResults.filter(r => r.passed).length;
 
   return (
-    <div className="codeeditor-wrapper fullscreen-mode">
+   <div className={`codeeditor-wrapper fullscreen-mode ${sidebarOpen ? "sidebar-open" : ""}`}>
 
       <div className="editor-container">
         <div className="problem-section">
-          <h2>{challenge.title}</h2>
-          <p>{challenge.description}</p>
-          <p><strong>Time Left:</strong> {formatTime(timeLeft)}</p>
-        </div>
+  <h2>{challenge.title}</h2>
+  <p>{challenge.description}</p>
+  <p><strong>Time Left:</strong> {formatTime(timeLeft)}</p>
+
+  {/* ✅ Sample Input/Output Boxes */}
+ {challenge.testCases && challenge.testCases.length > 0 && (
+  <div className="sample-io">
+    <div className="sample-box">
+      <h4>Sample Input</h4>
+      <pre>{challenge.testCases[0].input || "N/A"}</pre>
+      <p className="io-type">
+        Type: {Array.isArray(challenge.testCases[0].input) ? "array" : typeof challenge.testCases[0].input}
+      </p>
+    </div>
+    <div className="sample-box">
+      <h4>Sample Output</h4>
+      <pre>{challenge.testCases[0].expectedOutput || "N/A"}</pre>
+      <p className="io-type">
+        Type: {Array.isArray(challenge.testCases[0].expectedOutput) ? "array" : typeof challenge.testCases[0].expectedOutput}
+      </p>
+    </div>
+  </div>
+)}
+
+</div>
+
 
         <div className="editor-controls">
           <label>
@@ -385,43 +427,79 @@ window.dispatchEvent(new Event("stop-timer"));
         </div>
       </div>
 
-      <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
-        <h4>Visible Test Cases: {passedCount}/5 Passed</h4>
-        {challenge.testCases.slice(0, 5).map((test, i) => {
-          const result = testResults[i];
-          return (
-            <div key={i} className="testcase">
-              <button className="testBtn">Input: {test.input} | Expected: {test.expectedOutput}</button>
-              {result?.passed && <span className="tick">✅</span>}
-              {result && !result.passed && <span className="failedMark">❌</span>}
-              {result && !result.passed && result.got && <pre className="error-output">Got: {result.got}</pre>}
-            </div>
-          );
-        })}
-
-        <h4>Hidden Test Cases: {hiddenPassedCount}/5 Passed</h4>
-        {hiddenRunning && (
-          <div className="hidden-loading">
-            <span className="spinner"></span> Running hidden test cases...
-          </div>
-        )}
-
-        <div className="custom-input-section">
-          <h4>Try Your Own Input</h4>
-          <textarea
-            placeholder="Enter custom input"
-            value={customInput}
-            onChange={(e) => setCustomInput(e.target.value)}
-          />
-          <button onClick={handleCustomRun}>Run Custom Input</button>
-          {customOutput && <pre className="custom-output">{customOutput}</pre>}
+{/* ✅ Sidebar Wrapper */}
+<div className="sidebar-wrapper">
+  <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
+    <h4>Visible Test Cases: {passedCount}/5 Passed</h4>
+    {challenge.testCases.slice(0, 5).map((test, i) => {
+      const result = testResults[i];
+      return (
+        <div key={i} className="testcase">
+          <button className="testBtn">
+            Input: {test.input} | Expected: {test.expectedOutput}
+          </button>
+          {result?.passed && <span className="tick">✔️</span>}
+          {result && !result.passed && <span className="failedMark">✖️</span>}
+          {result && !result.passed && result.got && (
+            <pre className="error-output">Got: {result.got}</pre>
+          )}
         </div>
+      );
+    })}
 
-        <div className="scores-section">
-          <p><strong>Correctness Score:</strong> {correctnessScore.toFixed(2)}%</p>
-        </div>
+    <h4>Hidden Test Cases: {hiddenPassedCount}/5 Passed</h4>
+    {hiddenRunning && (
+      <div className="hidden-loading">
+        <span className="spinner"></span> Running hidden test cases...
       </div>
-            {/* ✅ Confirmation Modal */}
+    )}
+
+    <div className="custom-input-section">
+      <h4>Try Your Own Input</h4>
+      <textarea
+        placeholder="Enter custom input"
+        value={customInput}
+        onChange={(e) => setCustomInput(e.target.value)}
+      />
+      <button onClick={handleCustomRun}>Run Custom Input</button>
+      {customOutput && <pre className="custom-output">{customOutput}</pre>}
+    </div>
+
+    <div className="scores-section">
+      <p>
+        <strong>Correctness Score:</strong> {correctnessScore.toFixed(2)}%
+      </p>
+    </div>
+  </div>
+
+  {/* ✅ Floating Toggle Button */}
+  <button
+    className="sidebar-toggle-edge"
+    onClick={() => setSidebarOpen(!sidebarOpen)}
+    style={{
+      position: "fixed",
+      top: "50%",
+      right: sidebarOpen ? "450px" : "0",
+      transform: "translateY(-50%)",
+      background: "linear-gradient(180deg, #007bff, #87baefff)",
+      borderRadius: sidebarOpen ? "0 8px 8px 0" : "8px 0 0 8px",
+      border: "none",
+      color: "#fff",
+      fontWeight: "bold",
+      fontSize: "18px",
+      width: "40px",
+      height: "60px",
+      cursor: "pointer",
+      zIndex: 200,
+      boxShadow: "-2px 0 6px rgba(0, 0, 0, 0.4)",
+      transition: "right 0.5s ease",
+    }}
+  >
+    {sidebarOpen ? ">" : "<"}
+  </button>
+</div>
+
+       {/* ✅ Confirmation Modal */}
       {showSubmitModal && (
         <div className="modal-overlay">
           <div className="modal">

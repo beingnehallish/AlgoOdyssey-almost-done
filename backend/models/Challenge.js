@@ -15,7 +15,7 @@ const challengeSchema = new mongoose.Schema(
     difficulty:  { type: String, enum: ["Easy", "Medium", "Hard"], default: "Easy" },
     timeLimit:   { type: Number, default: 1 }, // seconds
     startTime:   { type: Date, default: null },
-    testCases:   { type: [testCaseSchema], default: [] },
+   testCases:   { type: [testCaseSchema], default: [] },
     leaderboardComputed: { type: Boolean, default: false },
     starterCode: { 
       type: Map, 

@@ -12,7 +12,13 @@
   flex: 1;
   padding: 20px;
   overflow-y: auto;
+  transition: margin-right 0.5s ease;
 }
+.codeeditor-wrapper.sidebar-open .editor-container {
+  margin-right: 450px; /* same as sidebar width */
+  transition: margin-right 0.5s ease;
+}
+
 
 .problem-section h2 {
   color: #1b75db;
@@ -102,7 +108,7 @@
 /* Sidebar */
 .sidebar {
   position: fixed;
-  background: white;
+  background: rgb(179, 217, 239);
   top: 0;
   right: 0;
   width: 450px;
@@ -199,11 +205,10 @@
 .sidebar-toggle-edge {
   position: absolute;
   top: 50%;
-  left: -40px;
   transform: translateY(-50%);
   width: 40px;
   height: 60px;
-  background: linear-gradient(180deg, #f97316, #ea580c);
+  background: linear-gradient(180deg, #007bff, #83c3ca);
   border: none;
   border-radius: 8px 0 0 8px;
   color: #fff;
@@ -336,4 +341,47 @@
   cursor: pointer;
   background: white;
   border-radius: 25px;
+}
+.sample-io {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.sample-box {
+  flex: 1;
+  background: #0f1216;
+  color: #f0f0f0;
+  border: 1px solid #1e2a3a;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease;
+}
+
+.sample-box:hover {
+  transform: translateY(-3px);
+}
+.sample-box .io-type {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #a0a0a0;
+  font-style: italic;
+}
+
+.sample-box h4 {
+  margin-bottom: 10px;
+  color: #87baef;
+  font-size: 16px;
+}
+
+.sample-box pre {
+  background: #4773b1;
+  border-radius: 6px;
+  padding: 10px;
+  overflow-x: auto;
+  font-size: 14px;
+  font-family: "Courier New", monospace;
+  white-space: pre-wrap;
 }

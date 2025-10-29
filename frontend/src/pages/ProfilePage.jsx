@@ -179,6 +179,7 @@ const handleLogout = () => {
                   onChange={handleChange}
                   placeholder="Employee ID"
                 />
+                
                 <p>
                   <strong>Email:</strong> {formData.email}
                 </p>

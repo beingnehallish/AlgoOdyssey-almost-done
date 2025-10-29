@@ -94,3 +94,110 @@
     padding: 8px;
   }
 }
+.dashboard-header {
+  position: relative;
+  display: flex;
+  justify-content: flex-end; /* keep icon on right */
+  align-items: center;
+  margin-bottom: 20px;
+  padding-right: 15px;
+}
+
+.dashboard-header h1 {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 2rem;
+  margin: 0;
+  text-align: center;
+}
+
+.help-icon {
+  font-size: 1.7rem;
+  color: #007bff;
+  cursor: pointer;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.help-icon:hover {
+  color: #0056b3;
+  transform: scale(1.1);
+}
+
+/* Modal Overlay */
+.help-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 37, 64, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 15px;
+}
+
+/* Modal Box */
+.help-modal {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 25px 20px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+  max-height: 85vh;
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.help-modal h2 {
+  text-align: center;
+  color: #0a2540;
+  margin-bottom: 15px;
+}
+
+.help-content p {
+  color: #333;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.help-content h3 {
+  color: #007bff;
+  margin-top: 15px;
+}
+
+.formula {
+  background: #677ea5;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 10px;
+  font-family: "Courier New", monospace;
+  white-space: pre-wrap;
+  font-size: 0.9rem;
+}
+
+.close-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.close-btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}

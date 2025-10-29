@@ -23,7 +23,10 @@
     "face-api.js": "^0.22.2",
     "mongoose": "^8.18.0",
     "multer": "^2.0.2",
+    "natural": "^8.1.0",
     "node-cron": "^4.2.1",
+    "nodemailer": "^7.0.10",
+    "twilio": "^5.10.3",
     "uuid": "^13.0.0"
   },
   "devDependencies": {

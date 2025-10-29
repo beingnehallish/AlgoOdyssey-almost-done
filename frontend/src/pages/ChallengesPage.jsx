@@ -220,9 +220,13 @@ export default function ChallengesPage() {
                 <h2>Terms & Conditions</h2>
                 <div className="tc-container">
                   <ul>
+                    <li>Complete your Profile before you begin compulsarily.</li>
                     <li>No malpractice. Cheating leads to disqualification.</li>
-                    <li>Complete within the given time frame.</li>
+                    <li>Complete within the given time frame. Keep your eyes on the countdown.</li>
                     <li>Follow challenge instructions.</li>
+                    <li>If any issues, contact us on support@algoodyssey.com</li><hr></hr>
+                    <li>Hint: Pay attention to the data type of the input and the output mentioned in the question.  </li>
+                    <li>All the best, candidate.</li>
                   </ul>
                 </div>
                 <div>
@@ -258,7 +262,7 @@ export default function ChallengesPage() {
 )}
 
 
-            <button className="modal-close" onClick={handleCloseModal}>❌ Close</button>
+            <button className="modal-close" onClick={handleCloseModal}>x</button>
           </div>
         </div>
       )}
